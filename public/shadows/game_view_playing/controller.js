@@ -92,13 +92,17 @@ class GameViewPlaying extends HTMLElement {
         await new Promise(resolve => setTimeout(resolve, 1500))
         document.querySelector('game-ws').showView('game-view-disconnected')
     }
+    resetStorage() {
+        localStorage.removeItem("name")
+        localStorage.removeItem("name1")
+    }
 
     showInfo () {
-        let name
+        console.log(this.opponentId)
         if (this.opponentId == ""){
-            name = localStorage.getItem("name")
+            localStorage.setItem("name1",localStorage.getItem("name"))
         }
-        let txt = `Puntuación - <b>${name}</b>`
+        let txt = `Puntuación - <b>${localStorage.getItem("name1")}</b>`
         if (this.opponentId != "") {
             txt = txt + ` --- VS --- Puntuación - <b>${localStorage.getItem("name")}</b>`
         }
@@ -234,6 +238,7 @@ class GameViewPlaying extends HTMLElement {
             this.socketId = obj.value
             break
         case "initMatch":
+            
             this.match = obj.value
             if (this.match.playerX == this.socketId) {
                 this.player = "X"
@@ -255,6 +260,7 @@ class GameViewPlaying extends HTMLElement {
             console.log("opponentDisconnected")
             this.gameStatus = "waitingOpponent"
             this.showInfo()
+            this.removeItem()
             break
         case "opponentOver":
             this.cellOpponentOver = obj.value
@@ -263,6 +269,7 @@ class GameViewPlaying extends HTMLElement {
             this.gameStatus = "gameOver"
             this.match = obj.value
             this.winner = obj.winner
+            this.removeItem()
             break
         case "gameRound":
             this.gameStatus = "gameRound"
