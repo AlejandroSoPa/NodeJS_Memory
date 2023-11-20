@@ -94,10 +94,15 @@ class GameViewPlaying extends HTMLElement {
     }
 
     showInfo () {
-        let txt = `Connected to <b>${socket.url}</b>, with ID <b>${this.socketId}</b>.`
-        if (this.opponentId != "") {
-            txt = txt + ` Playing against: <b>${this.opponentId}</b>`
+        let name
+        if (this.opponentId == ""){
+            name = localStorage.getItem("name")
         }
+        let txt = `Puntuación - <b>${name}</b>`
+        if (this.opponentId != "") {
+            txt = txt + ` --- VS --- Puntuación - <b>${localStorage.getItem("name")}</b>`
+        }
+        console.log("hola")
         this.shadow.querySelector('#connectionInfo').innerHTML = txt
     }
 
@@ -124,12 +129,12 @@ class GameViewPlaying extends HTMLElement {
         var width = this.canvas.width
 
         // Calculate useful coords and sizes
-        var thirdHorizontal = width / 3
-        var thirdVertical = height / 3
+        var thirdHorizontal = width / 4
+        var thirdVertical = height / 4
         var cellSize = Math.min(thirdHorizontal, thirdVertical) - 5
         var sixth = cellSize / 2
-        var centerX = width / 2
-        var centerY = height / 2
+        var centerX = width / 2 - 100
+        var centerY = height / 2 - 100
 
         // Set coords
         this.coords.cellSize = cellSize
@@ -141,9 +146,9 @@ class GameViewPlaying extends HTMLElement {
         this.coords.y = centerY - sixth - cellSize
         this.coords.cells = []
 
-        for (var cnt = 0; cnt < 9; cnt++) {
-            var cellRow = cnt % 3
-            var cellCol = Math.floor(cnt / 3)
+        for (var cnt = 0; cnt < 16; cnt++) {
+            var cellRow = cnt % 4
+            var cellCol = Math.floor(cnt / 4)
             var cellX = this.coords.x + (cellRow * cellSize)
             var cellY = this.coords.y + (cellCol * cellSize)
 
@@ -223,13 +228,27 @@ class GameViewPlaying extends HTMLElement {
         this.opponentId = ""
         this.cellOpponentOver = -1
         this.winner = ""
-
+        console.log(obj)
         switch (obj.type) {
         case "socketId":
             this.socketId = obj.value
             break
         case "initMatch":
             this.match = obj.value
+            if (this.match.playerX == this.socketId) {
+                this.player = "X"
+                this.opponentId = this.match.playerO
+                console.log(this.opponentId)
+                if (this.match.nextTurn == "X") {
+                    this.isMyTurn = true
+                }
+            } else {
+                this.player = "O"
+                this.opponentId = this.match.playerX
+                if (this.match.nextTurn == "O") {
+                    this.isMyTurn = true
+                }
+            }
             this.showInfo()
             break
         case "opponentDisconnected":
@@ -248,10 +267,10 @@ class GameViewPlaying extends HTMLElement {
         case "gameRound":
             this.gameStatus = "gameRound"
             this.match = obj.value
-
             if (this.match.playerX == this.socketId) {
                 this.player = "X"
                 this.opponentId = this.match.playerO
+                console.log(this.opponentId)
                 if (this.match.nextTurn == "X") {
                     this.isMyTurn = true
                 }

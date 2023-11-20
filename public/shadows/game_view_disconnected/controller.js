@@ -28,6 +28,8 @@ class GameViewDisconnected extends HTMLElement {
     async actionConnect() {
         let server = this.shadow.querySelector('#server').value
         let port = this.shadow.querySelector('#port').value
+        let name = this.shadow.querySelector("#name").value
+        localStorage.setItem("name",name);
 
         connect('ws', server, port)
 

@@ -77,7 +77,7 @@ ws.onConnection = (socket, id) => {
     matches.push({
       playerX: id, 
       playerO: "", 
-      board: ["", "", "", "", "", "", "", "", ""],
+      board: ["", "", "", "", "", "", "", "", "","", "", "", "", "", "", ""],
       nextTurn: "X"
     })
   } else {
@@ -101,7 +101,7 @@ ws.onConnection = (socket, id) => {
       matches.push({ 
         playerX: id, 
         playerO: "", 
-        board: ["", "", "", "", "", "", "", "", ""],
+        board: ["", "", "", "", "", "", "", "", "","", "", "", "", "", "", ""],
         nextTurn: "X"
       })
     }
