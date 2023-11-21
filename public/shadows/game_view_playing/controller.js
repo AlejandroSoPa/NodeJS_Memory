@@ -42,12 +42,40 @@ class GameViewPlaying extends HTMLElement {
 
         // Preload images
         this.imgX = new Image()
-        this.imgX.src = '/images/imgX.png'
+        this.imgX.src = '/images/hidden.png'
         this.imgX.onload = () => { this.imgXloaded = true }
 
-        this.imgO = new Image()
-        this.imgO.src = '/images/imgO.png'
-        this.imgO.onload = () => { this.imgOloaded = true }
+        this.bowserImage = new Image()
+        this.bowserImage.src = '/images/bowser.png'
+        this.bowserImage.onload = () => { this.bowserImageLoaded = true }
+
+        this.estrellaImage = new Image()
+        this.estrellaImage.src = '/images/estrella.png'
+        this.estrellaImage.onload = () => { this.estrellaImageLoaded = true }
+
+        this.florImage = new Image()
+        this.florImage.src = '/images/flor.png'
+        this.florImage.onload = () => { this.florImageLoaded = true }
+
+        this.goombaImage = new Image()
+        this.goombaImage.src = '/images/goomba.png'
+        this.goombaImage.onload = () => { this.goombaImageLoaded = true }
+
+        this.luigiImage = new Image()
+        this.luigiImage.src = '/images/luigi.png'
+        this.luigiImage.onload = () => { this.luigiImageLoaded = true }
+
+        this.marioImage = new Image()
+        this.marioImage.src = '/images/mario.png'
+        this.marioImage.onload = () => { this.marioImageLoaded = true }
+
+        this.nubeImage = new Image()
+        this.nubeImage.src = '/images/nube.png'
+        this.nubeImage.onload = () => { this.nubeImageLoaded = true }
+        
+        this.setaImage = new Image()
+        this.setaImage.src = '/images/seta.png'
+        this.setaImage.onload = () => { this.setaImageLoaded = true }
 
         // Carrega els estils CSS
         const style = document.createElement('style')
@@ -532,7 +560,7 @@ class GameViewPlaying extends HTMLElement {
             }
 
             // Dibuixa el requadre de la casella
-            this.drawRect(ctx, 10, colorBoard, cellCoords.x, cellCoords.y, cellSize, cellSize)
+            this.drawRect(ctx, 1, colorBoard, cellCoords.x, cellCoords.y, cellSize, cellSize)
 
             // Dibuixa el contingut de la casella
             if (cell == "X") {
@@ -546,16 +574,23 @@ class GameViewPlaying extends HTMLElement {
         }
     }
 
-    drawX (ctx, color, cellCoords, cellSize) {
-        var padding = 20
-        var x0 = cellCoords.x + padding
-        var y0 = cellCoords.y + padding
-        var x1 = cellCoords.x + cellSize - padding
-        var y1 = cellCoords.y + cellSize - padding
-        this.drawLine(ctx, 10, color, x0, y0, x1, y1)
-        x0 = cellCoords.x + cellSize - padding
-        x1 = cellCoords.x + padding
-        this.drawLine(ctx, 10, color, x0, y0, x1, y1)
+    drawX(ctx, color, cellCoords, cellSize) {
+        var padding = 20;
+        var x0 = cellCoords.x + padding;
+        var y0 = cellCoords.y + padding;
+        var x1 = cellCoords.x + cellSize - padding;
+        var y1 = cellCoords.y + cellSize - padding;
+    
+        // Modificación para dibujar una imagen en lugar de la "X"
+        if (this.imgXloaded) {
+            this.drawImage(ctx, this.imgX, cellCoords, cellSize);
+        } else {
+            // Dibuja una "X" si la imagen no está cargada
+            this.drawLine(ctx, 10, color, x0, y0, x1, y1);
+            x0 = cellCoords.x + cellSize - padding;
+            x1 = cellCoords.x + padding;
+            this.drawLine(ctx, 10, color, x0, y0, x1, y1);
+        }
     }
 
     drawO (ctx, color, cellCoords, cellSize) {
