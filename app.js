@@ -296,7 +296,7 @@ ws.onClose = (socket, id) => {
     } else {
       
       // Reiniciem el taulell
-      matches[idMatch].board = ["", "", "", "", "", "", "", "", ""]
+      matches[idMatch].board = ["", "", "", "", "", "", "", "", "","", "", "", "", "", "", ""]
       
       // Esborrar el jugador de la partida
       let rival = ""

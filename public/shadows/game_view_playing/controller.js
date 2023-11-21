@@ -25,8 +25,23 @@ class GameViewPlaying extends HTMLElement {
         // Imatges
         this.imgX = null
         this.imgXloaded = false
-        this.imgO = null
-        this.imgOloaded = false
+        this.bowserImage = false
+        this.bowserImageLoaded = false
+        this.estrellaImage = false
+        this.estrellaImageLoaded = false
+        this.florImage = false
+        this.florImageLoaded = false
+        this.goombaImage = false
+        this.goombaImageLoaded = false
+        this.luigiImage = false
+        this.luigiImageLoaded = false
+        this.marioImage = false
+        this.marioImageLoaded = false
+        this.nubeImage= false
+        this.nubeImageLoaded = false
+        this.setaImage = false
+        this.setaImageLoaded = false
+
 
         // Funcions per controlar el redibuix i els FPS
         this.reRunLastDrawTime = Date.now();  // Nova propietat per rastrejar l'últim temps de dibuix
@@ -130,11 +145,10 @@ class GameViewPlaying extends HTMLElement {
         if (this.opponentId == ""){
             localStorage.setItem("name1",localStorage.getItem("name"))
         }
-        let txt = `Puntuación - <b>${localStorage.getItem("name1")}</b>`
+        let txt = `<b>${localStorage.getItem("name1")}: </b>`
         if (this.opponentId != "") {
-            txt = txt + ` --- VS --- Puntuación - <b>${localStorage.getItem("name")}</b>`
+            txt = txt + ` --- VS --- <b>${localStorage.getItem("name")}: </b>`
         }
-        console.log("hola")
         this.shadow.querySelector('#connectionInfo').innerHTML = txt
     }
 
@@ -266,7 +280,6 @@ class GameViewPlaying extends HTMLElement {
             this.socketId = obj.value
             break
         case "initMatch":
-            
             this.match = obj.value
             if (this.match.playerX == this.socketId) {
                 this.player = "X"
@@ -288,7 +301,6 @@ class GameViewPlaying extends HTMLElement {
             console.log("opponentDisconnected")
             this.gameStatus = "waitingOpponent"
             this.showInfo()
-            this.removeItem()
             break
         case "opponentOver":
             this.cellOpponentOver = obj.value
@@ -297,7 +309,6 @@ class GameViewPlaying extends HTMLElement {
             this.gameStatus = "gameOver"
             this.match = obj.value
             this.winner = obj.winner
-            this.removeItem()
             break
         case "gameRound":
             this.gameStatus = "gameRound"
@@ -523,13 +534,13 @@ class GameViewPlaying extends HTMLElement {
         var board = this.match.board
         var colorX = "red"
         var colorO = "green"
-        var colorBoard = "black"
+        var colorBoard = "white"
         var colorOver = "lightblue"
 
         if (!this.isMyTurn) {
             colorX = "#888"
             colorO = "#888"
-            colorBoard = "#888"
+            colorBoard = "white"
             colorOver = "#ccc"
         }
 
@@ -537,14 +548,15 @@ class GameViewPlaying extends HTMLElement {
         for (var cnt = 0; cnt < board.length; cnt++) {
             var cell = board[cnt]
             var cellCoords = this.coords.cells[cnt]
-
+            this.drawX(ctx, colorX, cellCoords, cellSize)
+            
             // Si toca jugar, i el ratolí està sobre la casella, dibuixa la simulació de partida
             if (this.isMyTurn && this.cellOver == cnt && board[cnt] == "") {
                 this.fillRect(ctx, 10, colorOver, cellCoords.x, cellCoords.y, cellSize, cellSize)
                 if (this.player == "X") {
                    this.drawX(ctx, colorX, cellCoords, cellSize)
                 } else {
-                    this.drawO(ctx, colorO, cellCoords, cellSize)
+                    this.drawX(ctx, colorO, cellCoords, cellSize)
                 } 
             }
 
@@ -553,51 +565,32 @@ class GameViewPlaying extends HTMLElement {
                 var cellOverCords = this.coords.cells[this.cellOpponentOver]
                 this.fillRect(ctx, 10, colorOver, cellCoords.x, cellCoords.y, cellSize, cellSize)
                 if (this.player == "X") {
-                   this.drawO(ctx, colorO, cellOverCords, cellSize)
+                   this.drawX(ctx, colorO, cellOverCords, cellSize)
                 } else {
                     this.drawX(ctx, colorX, cellOverCords, cellSize)
                 } 
             }
 
             // Dibuixa el requadre de la casella
-            this.drawRect(ctx, 1, colorBoard, cellCoords.x, cellCoords.y, cellSize, cellSize)
+            this.drawRect(ctx, 0, colorBoard, cellCoords.x, cellCoords.y, cellSize, cellSize)
 
             // Dibuixa el contingut de la casella
             if (cell == "X") {
-                if (this.imgXloaded) this.drawImage(ctx, this.imgX, cellCoords, cellSize)
+                if (this.estrellaImageLoaded) this.drawImage(ctx, this.estrellaImage, cellCoords, cellSize)
                 else this.drawX(ctx, colorX, cellCoords, cellSize)
             }
             if (cell == "O") {
                 if (this.imgOloaded) this.drawImage(ctx, this.imgO, cellCoords, cellSize)
-                else this.drawO(ctx, colorO, cellCoords, cellSize)
+                else this.drawX(ctx, colorO, cellCoords, cellSize)
             }
         }
     }
 
     drawX(ctx, color, cellCoords, cellSize) {
-        var padding = 20;
-        var x0 = cellCoords.x + padding;
-        var y0 = cellCoords.y + padding;
-        var x1 = cellCoords.x + cellSize - padding;
-        var y1 = cellCoords.y + cellSize - padding;
-    
         // Modificación para dibujar una imagen en lugar de la "X"
         if (this.imgXloaded) {
             this.drawImage(ctx, this.imgX, cellCoords, cellSize);
-        } else {
-            // Dibuja una "X" si la imagen no está cargada
-            this.drawLine(ctx, 10, color, x0, y0, x1, y1);
-            x0 = cellCoords.x + cellSize - padding;
-            x1 = cellCoords.x + padding;
-            this.drawLine(ctx, 10, color, x0, y0, x1, y1);
         }
-    }
-
-    drawO (ctx, color, cellCoords, cellSize) {
-        var padding = 20
-        var x = cellCoords.x + (cellSize / 2)
-        var y = cellCoords.y + (cellSize / 2)
-        this.drawCircle(ctx, 10, color, x, y, (cellSize / 2) - padding)
     }
 }
 
