@@ -278,6 +278,7 @@ class GameViewPlaying extends HTMLElement {
         switch (obj.type) {
         case "socketId":
             this.socketId = obj.value
+            this.createBoard();
             break
         case "initMatch":
             this.match = obj.value
@@ -592,7 +593,39 @@ class GameViewPlaying extends HTMLElement {
             this.drawImage(ctx, this.imgX, cellCoords, cellSize);
         }
     }
-}
+
+    createBoard() {
+        let newboard = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        let pos1 = 0;
+        let pos2 = 0;
+        let numero1 = false
+        let numero2 = false
+        for(let i=1; i<=8;){
+            if(numero1==false){
+                pos1 = Math.floor(Math.random() * 16);
+                if(newboard[pos1]==0){
+                    newboard[pos1] = i;
+                    numero1 = true
+                }
+            }
+            if(numero2==false){
+                pos2 = Math.floor(Math.random() * 16);
+                if(newboard[pos2]==0){
+                    newboard[pos2] = i;
+                    numero2 = true
+                }
+            }
+            if(numero1 && numero2){
+                i++
+                numero1 = false
+                numero2 = false
+            }
+            }
+            this.match.board = newboard
+            console.log(newboard)
+        }
+        
+    }
 
 // Defineix l'element personalitzat
 customElements.define('game-view-playing', GameViewPlaying)

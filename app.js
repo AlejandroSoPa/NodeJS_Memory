@@ -77,7 +77,7 @@ ws.onConnection = (socket, id) => {
     matches.push({
       playerX: id, 
       playerO: "", 
-      board: ["", "", "", "", "", "", "", "", "","", "", "", "", "", "", ""],
+      board: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       nextTurn: "X"
     })
   } else {
@@ -101,7 +101,7 @@ ws.onConnection = (socket, id) => {
       matches.push({ 
         playerX: id, 
         playerO: "", 
-        board: ["", "", "", "", "", "", "", "", "","", "", "", "", "", "", ""],
+        board: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         nextTurn: "X"
       })
     }
@@ -296,7 +296,7 @@ ws.onClose = (socket, id) => {
     } else {
       
       // Reiniciem el taulell
-      matches[idMatch].board = ["", "", "", "", "", "", "", "", "","", "", "", "", "", "", ""]
+      matches[idMatch].board = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       
       // Esborrar el jugador de la partida
       let rival = ""
