@@ -37,6 +37,9 @@ let shadows = new shadowsObj()
 // Jugadors i partides
 let matches = []
 
+let countXTurn = 1
+let countOTurn = 0
+
 // Start HTTP server
 const app = express()
 const port = process.env.PORT || 8888
@@ -184,6 +187,7 @@ ws.onMessage = (socket, id, msg) => {
       }
       break
     case "cellChoice":
+      
       // Si rebem la posició de la cel·la triada, actualitzem la partida
       playerTurn = matches[idMatch].nextTurn
       matches[idMatch].board[obj.value] = playerTurn
@@ -192,6 +196,7 @@ ws.onMessage = (socket, id, msg) => {
       let winner = ""
       let board = matches[idMatch].board
 
+      /*
       // Verificar files
       if (board[0] == board[1] && board[0] == board[2]) winner = board[0]
       else if (board[3] == board[4] && board[3] == board[5]) winner = board[3]
@@ -205,7 +210,7 @@ ws.onMessage = (socket, id, msg) => {
       // Verificar diagonals
       else if (board[0] == board[4] && board[0] == board[8]) winner = board[0]
       else if (board[2] == board[4] && board[2] == board[6]) winner = board[2]
-
+      */
       // Comprovem si hi ha empat (ja no hi ha cap espai buit)
       let tie = true
       for (let i = 0; i < board.length; i++) {
@@ -217,12 +222,19 @@ ws.onMessage = (socket, id, msg) => {
 
       if (winner == "" && !tie) {
         // Si no hi ha guanyador ni empat, canviem el torn
-        if (matches[idMatch].nextTurn == "X") {
+        if (matches[idMatch].nextTurn == "X" && countXTurn === 2) {
           matches[idMatch].nextTurn = "O"
-        } else {
+          countXTurn = 1
+        } if (matches[idMatch].nextTurn == "X" && countXTurn < 2) {
+          countXTurn += 1
+        } if (matches[idMatch].nextTurn == "O" && countOTurn === 2) {
           matches[idMatch].nextTurn = "X"
+          countOTurn = 0
+        } if (matches[idMatch].nextTurn == "O" && countOTurn !== 2) {
+          countOTurn += 1
         }
-
+        console.log(countXTurn)
+        console.log(countOTurn)
         // Informem al jugador de la partida
         socket.send(JSON.stringify({
           type: "gameRound",
