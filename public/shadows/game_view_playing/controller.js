@@ -577,6 +577,7 @@ class GameViewPlaying extends HTMLElement {
 
             // Dibuixa el contingut de la casella
             if (cell == "X") {
+                /*
                 switch(this.cellOver) {
                     case 1:
                         if (this.estrellaImageLoaded){
@@ -637,8 +638,12 @@ class GameViewPlaying extends HTMLElement {
                     default:
                         console.log(`ERROR SWITCH - Unhandled case: ${board[cnt]}`);
                 }
+                */
+                if (this.estrellaImageLoaded) this.drawImage(ctx, this.estrellaImage, cellCoords, cellSize)
+                else this.drawX(ctx, colorX, cellCoords, cellSize)
             }
             if (cell == "O") {
+                /*
                 switch(this.cellOver) {
                     case 1:
                         if (this.estrellaImageLoaded){
@@ -698,7 +703,9 @@ class GameViewPlaying extends HTMLElement {
                         break;
                     default:
                         console.log(`ERROR SWITCH - Unhandled case: ${board[cnt]}`);
-                }
+                }*/
+                if (this.bowserImageLoaded) this.drawImage(ctx, this.bowserImage, cellCoords, cellSize)
+                else this.drawX(ctx, colorO, cellCoords, cellSize)
             }
         }
     }
