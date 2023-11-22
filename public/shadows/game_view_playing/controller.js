@@ -254,7 +254,8 @@ class GameViewPlaying extends HTMLElement {
 
             if (this.match.board[this.cellOver] != "") {
                 this.cellOver = -1
-            }    
+            }
+            console.log(this.cellOver)
 
             if (this.cellOver != -1) {
                 // Envia la jugada
@@ -317,7 +318,6 @@ class GameViewPlaying extends HTMLElement {
             if (this.match.playerX == this.socketId) {
                 this.player = "X"
                 this.opponentId = this.match.playerO
-                console.log(this.opponentId)
                 if (this.match.nextTurn == "X") {
                     this.isMyTurn = true
                 }
@@ -577,12 +577,128 @@ class GameViewPlaying extends HTMLElement {
 
             // Dibuixa el contingut de la casella
             if (cell == "X") {
-                if (this.estrellaImageLoaded) this.drawImage(ctx, this.estrellaImage, cellCoords, cellSize)
-                else this.drawX(ctx, colorX, cellCoords, cellSize)
+                switch(this.cellOver) {
+                    case 1:
+                        if (this.estrellaImageLoaded){
+                            this.drawImage(ctx, this.estrellaImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 2:
+                        if (this.bowserImageLoaded){
+                            this.drawImage(ctx, this.bowserImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 3:
+                        if (this.florImageLoaded){
+                            this.drawImage(ctx, this.florImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 4:
+                        if (this.goombaImageLoaded){
+                            this.drawImage(ctx, this.goombaImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 5:
+                        if (this.luigiImageLoaded){
+                            this.drawImage(ctx, this.luigiImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 6:
+                        if (this.marioImageLoaded){
+                            this.drawImage(ctx, this.marioImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 7:
+                        if (this.nubeImageLoaded){
+                            this.drawImage(ctx, this.nubeImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 8:
+                        if (this.setaImageLoaded){
+                            this.drawImage(ctx, this.setaImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    default:
+                        console.log(`ERROR SWITCH - Unhandled case: ${board[cnt]}`);
+                }
             }
             if (cell == "O") {
-                if (this.imgOloaded) this.drawImage(ctx, this.imgO, cellCoords, cellSize)
-                else this.drawX(ctx, colorO, cellCoords, cellSize)
+                switch(this.cellOver) {
+                    case 1:
+                        if (this.estrellaImageLoaded){
+                            this.drawImage(ctx, this.estrellaImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 2:
+                        if (this.bowserImageLoaded){
+                            this.drawImage(ctx, this.bowserImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 3:
+                        if (this.florImageLoaded){
+                            this.drawImage(ctx, this.florImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 4:
+                        if (this.goombaImageLoaded){
+                            this.drawImage(ctx, this.goombaImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 5:
+                        if (this.luigiImageLoaded){
+                            this.drawImage(ctx, this.luigiImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 6:
+                        if (this.marioImageLoaded){
+                            this.drawImage(ctx, this.marioImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 7:
+                        if (this.nubeImageLoaded){
+                            this.drawImage(ctx, this.nubeImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    case 8:
+                        if (this.setaImageLoaded){
+                            this.drawImage(ctx, this.setaImage, cellCoords, cellSize)
+                        } else {
+                            this.drawX(ctx, colorX, cellCoords, cellSize)
+                        }
+                        break;
+                    default:
+                        console.log(`ERROR SWITCH - Unhandled case: ${board[cnt]}`);
+                }
             }
         }
     }
