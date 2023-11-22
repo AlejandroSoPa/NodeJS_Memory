@@ -77,7 +77,7 @@ ws.onConnection = (socket, id) => {
     matches.push({
       playerX: id, 
       playerO: "", 
-      board: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      board: createBoard(),
       nextTurn: "X"
     })
   } else {
@@ -101,7 +101,7 @@ ws.onConnection = (socket, id) => {
       matches.push({ 
         playerX: id, 
         playerO: "", 
-        board: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        board: createBoard(),
         nextTurn: "X"
       })
     }
@@ -296,7 +296,7 @@ ws.onClose = (socket, id) => {
     } else {
       
       // Reiniciem el taulell
-      matches[idMatch].board = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      matches[idMatch].board = createBoard()
       
       // Esborrar el jugador de la partida
       let rival = ""
@@ -318,6 +318,38 @@ ws.onClose = (socket, id) => {
     }
   }
 }
+
+function createBoard() {
+  let newboard = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  let pos1 = 0;
+  let pos2 = 0;
+  let numero1 = false
+  let numero2 = false
+  for(let i=1; i<=8;){
+      if(numero1==false){
+          pos1 = Math.floor(Math.random() * 16);
+          if(newboard[pos1]==0){
+              newboard[pos1] = i;
+              numero1 = true
+          }
+      }
+      if(numero2==false){
+          pos2 = Math.floor(Math.random() * 16);
+          if(newboard[pos2]==0){
+              newboard[pos2] = i;
+              numero2 = true
+          }
+      }
+      if(numero1 && numero2){
+          i++
+          numero1 = false
+          numero2 = false
+      }
+      }
+      console.log(newboard)
+      return newboard
+  }
+  
 
 // Configurar la direcció '/index-dev.html' per retornar
 // la pàgina que descarrega tots els shadows (desenvolupament)
